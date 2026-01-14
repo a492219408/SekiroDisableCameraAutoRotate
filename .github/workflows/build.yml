@@ -1,0 +1,47 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses:  actions/checkout@v4
+
+      - name: Extract version from CMakeLists.txt
+        id: version
+        shell: pwsh
+        run: |
+          $content = Get-Content CMakeLists.txt -Raw
+          if ($content -match 'project\s*\(\s*\w+\s+VERSION\s+(\d+\.\d+\.\d+)') {
+            $version = $matches[1]
+            echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "VERSION=0.0.0" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Get current date
+        id: date
+        shell: pwsh
+        run: |
+          $date = Get-Date -Format "yyyy-MM-dd"
+          echo "DATE=$date" >> $env: GITHUB_OUTPUT
+
+      - name:  Configure CMake
+        run: cmake -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs. VERSION }}-${{ steps.date.outputs.DATE }}
+          name: ${{ steps.version.outputs.VERSION }}-${{ steps.date. outputs.DATE }}
+          files: build/Release/SekiroDisableCameraAutoRotate.dll
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
