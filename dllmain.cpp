@@ -256,14 +256,11 @@ void ApplyCameraFix() {
     
     // 3. Camera pitch XY-axis adjustment (may break controller input)
     // Note: This is commented out by default as it can cause issues with controllers
-    // Uncomment if using mouse input only
-    /*
     uintptr_t pitchXYAddr = FindPattern(baseAddress, moduleSize, PATTERN_CAMADJUST_PITCH_XY);
     if (pitchXYAddr) {
         CreateCodeCave(pitchXYAddr, INJECT_CAMADJUST_PITCH_XY_OVERWRITE_LENGTH,
                        INJECT_CAMADJUST_PITCH_XY_SHELLCODE, sizeof(INJECT_CAMADJUST_PITCH_XY_SHELLCODE));
     }
-    */
 
     // 4. Camera yaw XY-axis adjustment
     uintptr_t yawXYAddr = FindPattern(baseAddress, moduleSize, PATTERN_CAMADJUST_YAW_XY);

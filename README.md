@@ -1,6 +1,10 @@
 # SekiroDisableCameraAutoRotate
 
+[中文文档](README_zh.md)
+
 A DLL mod for **Sekiro: Shadows Die Twice** that disables the automatic camera rotation when the player moves.
+
+> **⚠️ Important**: This mod is designed for **mouse input**. If you use a controller, you may experience issues such as lack of smooth acceleration (the camera reaches max speed immediately when the stick is tilted) and a dead zone in stick input.
 
 ## Description
 
@@ -10,9 +14,8 @@ In Sekiro, the camera automatically adjusts its angle when the player character 
 
 - Disables automatic camera pitch adjustment
 - Disables automatic camera yaw adjustment on Z-axis movement
+- Disables automatic camera pitch adjustment on XY-axis movement
 - Disables automatic camera yaw adjustment on XY-axis movement
-
-> **Note**: The camera pitch XY adjustment is disabled by default in the code as it can cause issues with controller input. If you use mouse input only, you can uncomment the relevant code in `dllmain.cpp` and rebuild.
 
 ## Usage
 
